@@ -1,0 +1,24 @@
+# Build folders
+bin/
+obj/
+
+# Visual Studio folder
+.vs/
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+
+# Other
+*.vsidx
