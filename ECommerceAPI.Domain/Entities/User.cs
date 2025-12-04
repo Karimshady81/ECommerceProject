@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Entities
 {
-    internal class User
+    public enum UserRole
+    {
+        Customer,
+        Admin
+    }
+
+    public class User
     {
         public int Id { get; set; }
         public string Email { get; set; }
@@ -17,7 +23,7 @@ namespace ECommerceAPI.Domain.Entities
         public string Address { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-        public string Role { get; set; } // e.g., "Customer", "Admin"
+        public UserRole Role { get; set; } = UserRole.Customer;
         public DateTime CreatedAt { get; set; }
 
         public ICollection<Order> Orders { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Interfaces
 {
-    internal interface ICategoryRepository : IRepository<Category> 
+    public interface ICategoryRepository : IRepository<Category> 
     {
         Task<IEnumerable<Category>> GetActiveCategoriesAsync(); // Navigation menu
         Task<Category> GetCategoryWithProductsAsync(int categoryId); // Category page

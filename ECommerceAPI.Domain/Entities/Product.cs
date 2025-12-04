@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Entities
 {
-    internal class Product
+    public class Product
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }

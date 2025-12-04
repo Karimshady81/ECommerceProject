@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Interfaces
 {
-    internal interface IOrderRepository : IRepository<Order>
+    public interface IOrderRepository : IRepository<Order>
     {
         Task<IEnumerable<Order>> GetUserOrderAsync(int userId); // Order history
         Task<Order> GetOrderWithDetailsAsync(int orderId); // Order details page

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Interfaces
 {
-    internal interface IProductRepository : IRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     {
         Task<IEnumerable<Product>> GetByCategoryAsync(string categoryId); // Browse by category
         Task<IEnumerable<Product>> GetActiveProductsAsync(); // Show available products

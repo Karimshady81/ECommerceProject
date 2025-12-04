@@ -6,13 +6,22 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Entities
 {
-    internal class Order
+    public enum OrderStatus
+    {
+        Pending,
+        Processing,
+        Shipped,
+        Delivered,
+        Cancelled
+    }
+
+    public class Order
     {
         public int Id { get; set; }
         public int UserId { get; set; }
         public string OrderNumber { get; set; }
         public decimal Total { get; set; }
-        public string Status { get; set; } /// "Pending", "Processing", "Shipped", "Delivered", "Cancelled"
+        public OrderStatus Status { get; set; }
         public string ShippingAddress { get; set; }
         public DateTime CreatedAt { get; set; }
 

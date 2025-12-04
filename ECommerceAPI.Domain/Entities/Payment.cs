@@ -6,13 +6,26 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Entities
 {
-    internal class Payment
+    public enum PaymentMethod
+    {
+        CreditCard,
+        PayPal,
+        Cash
+    }
+    public enum PaymentStatus
+    {
+        Pending,
+        Completed,
+        Failed
+    }
+
+    public class Payment
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
-        public string PaymentMethod { get; set; } // "CreditCard", "PayPal", "Cash"
+        public PaymentMethod PaymentMethod { get; set; }
         public decimal Amount { get; set; }
-        public string Status { get; set; } // "Pending", "Completed", "Failed"
+        public PaymentStatus PaymentStatus { get; set; } 
         public DateTime PaymentDate { get; set; }
 
 

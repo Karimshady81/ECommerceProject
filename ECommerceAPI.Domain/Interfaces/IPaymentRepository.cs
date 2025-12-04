@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Interfaces
 {
-    internal interface IPaymentRepository : IRepository<Payment>
+    public interface IPaymentRepository : IRepository<Payment>
     {
         Task<Payment> GetByOrderIdAsync(int orderId); // Verify order payments
         Task<IEnumerable<Payment>> GetPaymentsByStatusAsync(string status); // Admin: pending payments

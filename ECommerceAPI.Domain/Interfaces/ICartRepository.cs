@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Domain.Interfaces
 {
-    internal interface ICartRepository : IRepository<CartItem>
+    public interface ICartRepository : IRepository<CartItem>
     {
         Task<IEnumerable<CartItem>> GetUserCartAsync(int userId); // Cart page
         Task<CartItem> GetCartItemsAsync(int userId, int productId); // Check if already in cart
