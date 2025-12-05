@@ -9,10 +9,10 @@ namespace ECommerceAPI.Domain.Interfaces
 {
     public interface IProductRepository : IRepository<Product>
     {
-        Task<IEnumerable<Product>> GetByCategoryAsync(string categoryId); // Browse by category
+        Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId); // Browse by category
         Task<IEnumerable<Product>> GetActiveProductsAsync(); // Show available products
         Task<IEnumerable<Product>> SearchProductAsync(string searchTerm); // Search bar
         Task<bool> IsInStockAsync(int productId, int quantity); // Before adding to cart
-        Task UpdateStockAsync(int productId, int quantity); // After order placed
+        Task ReduceStockAsync(int productId, int quantity); // After order placed
     }
 }
