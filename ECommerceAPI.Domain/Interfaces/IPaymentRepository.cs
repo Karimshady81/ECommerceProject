@@ -9,8 +9,8 @@ namespace ECommerceAPI.Domain.Interfaces
 {
     public interface IPaymentRepository : IRepository<Payment>
     {
-        Task<Payment> GetByOrderIdAsync(int orderId); // Verify order payments
-        Task<IEnumerable<Payment>> GetPaymentsByStatusAsync(string status); // Admin: pending payments
+        Task<Payment?> GetByOrderIdAsync(int orderId); // Verify order payments
+        Task<IEnumerable<Payment>> GetPaymentsByStatusAsync(PaymentStatus status); // Admin: pending payments
         Task<IEnumerable<Payment>> GetPaymentsByDateRangeAsync(DateTime startDate, DateTime endDate); // Payment reports
     }
 }

@@ -10,6 +10,6 @@ namespace ECommerceAPI.Domain.Interfaces
     public interface ICategoryRepository : IRepository<Category> 
     {
         Task<IEnumerable<Category>> GetActiveCategoriesAsync(); // Navigation menu
-        Task<Category> GetCategoryWithProductsAsync(int categoryId); // Category page
+        Task<Category?> GetCategoryWithProductsAsync(int categoryId); // Category page
     }
 }

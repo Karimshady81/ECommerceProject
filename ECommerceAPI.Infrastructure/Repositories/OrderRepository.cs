@@ -26,7 +26,7 @@ namespace ECommerceAPI.Infrastructure.Repositories
             return await _dbSet.Where(o => o.Id == orderId)
                                .Include(oi => oi.OrderItems)
                                .ThenInclude(p => p.Product)
-                               .FirstOrDefaultAsync();
+                               .SingleOrDefaultAsync();
         }
 
         public async Task<Order?> GetOrderByNumberAsync(string orderNumber)
