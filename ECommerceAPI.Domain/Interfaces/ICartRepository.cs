@@ -10,7 +10,7 @@ namespace ECommerceAPI.Domain.Interfaces
     public interface ICartRepository : IRepository<CartItem>
     {
         Task<IEnumerable<CartItem>> GetUserCartAsync(int userId); // Cart page
-        Task<CartItem> GetCartItemsAsync(int userId, int productId); // Check if already in cart
+        Task<CartItem?> GetCartItemsAsync(int userId, int productId); // Check if already in cart
         Task ClearUserCartAsync(int userId); // After checkout
         Task<int> GetCartItemCountAsync(int userId);  // Cart badge/icon
     }
