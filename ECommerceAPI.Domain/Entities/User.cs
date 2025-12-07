@@ -25,6 +25,7 @@ namespace ECommerceAPI.Domain.Entities
         public string Country { get; set; }
         public UserRole Role { get; set; } = UserRole.Customer;
         public DateTime CreatedAt { get; set; }
+        public DateTime LastUpdatedAt { get; set; }
 
         public ICollection<Order> Orders { get; set; }
         public ICollection<CartItem> CartItems { get; set; }
