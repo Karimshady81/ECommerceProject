@@ -18,6 +18,6 @@ namespace ECommerceAPI.Application.Interfaces
         Task<ProductResponseDto> UpdateProductAsync(int productId,UpdateProductRequestDto productDto);
         Task<bool> DeleteProductAsync(int productId);
         Task<ProductResponseDto> UpdateStockAsync(int productId, int quantity);
-        Task<bool> IsInStock(int productId, int quantity);
+        Task<bool> IsInStockAsync(int productId, int quantity);
     }
 }

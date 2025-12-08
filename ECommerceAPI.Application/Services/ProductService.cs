@@ -197,5 +197,59 @@ namespace ECommerceAPI.Application.Services
             };
         }
 
+        public async Task<bool> DeleteProductAsync(int productId)
+        {
+            var productExists = await _productRepository.GetByIdAsync(productId);
+            if (productExists == null)
+            {
+                throw new InvalidOperationException($"No Product with this Id: {productId}");
+            }
+
+            return await _productRepository.DeleteAsync(productId);
+        }
+
+        public async Task<ProductResponseDto> UpdateStockAsync(int productId, int quantity)
+        {
+            var product = await _productRepository.GetByIdAsync(productId);
+
+            if (product == null)
+            {
+                throw new InvalidOperationException($"No product with this Id: ${productId}");
+            }
+
+            product.StockQuantity -= quantity;
+
+            if (product.StockQuantity < 0) 
+            {
+                throw new InvalidOperationException("Not enough stock available");
+            }
+
+            var updated = await _productRepository.UpdateAsync(product);
+
+            return new ProductResponseDto
+            {
+                Id = updated.Id,
+                CategoryName = updated.Category?.Name,
+                Name = updated.Name,
+                Description = updated.Description,
+                Image = updated.Image,
+                Price = updated.Price,
+                StockQuantity = updated.StockQuantity,
+                UpdatedAt = updated.UpdateAt.ToString("B")
+            };
+        }
+
+        public async Task<bool> IsInStockAsync(int productId, int quantity)
+        {
+            var product = await _productRepository.GetByIdAsync(productId);
+
+            if (product == null)
+            {
+                throw new InvalidOperationException($"No product with this Id: {productId}");
+            }
+
+            return await _productRepository.IsInStockAsync(productId, quantity);
+        }
+
     }
 }
