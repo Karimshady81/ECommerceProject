@@ -8,5 +8,14 @@ namespace ECommerceAPI.Application.DTOs.Response
 {
     internal class ProductResponseDto
     {
+        public int Id { get; set; }
+        public string CategoryName { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string? Image { get; set; }
+        public decimal Price { get; set; }
+        public int StockQuantity { get; set; }
+        public string AddedDate { get; set; }
+        public string UpdatedAt { get; set; }
     }
 }

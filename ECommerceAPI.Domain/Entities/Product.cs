@@ -17,6 +17,7 @@ namespace ECommerceAPI.Domain.Entities
         public int StockQuantity { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
+        public DateTime UpdateAt { get; set; }
 
         public Category Category { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
