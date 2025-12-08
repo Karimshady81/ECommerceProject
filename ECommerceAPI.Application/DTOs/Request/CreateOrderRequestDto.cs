@@ -8,5 +8,9 @@ namespace ECommerceAPI.Application.DTOs.Request
 {
     internal class CreateOrderRequestDto
     {
+        public int UserId { get; set; }
+        public int ProductId { get; set; }
+        public int quantity { get; set; }
+        public string ShippingAddress { get; set; }
     }
 }

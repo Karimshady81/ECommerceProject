@@ -12,8 +12,9 @@ namespace ECommerceAPI.Domain.Entities
         public int OrderId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
-        public decimal TotalPrice { get; set; }
+
+        public decimal UnitPrice { get; set; } //Price per item at time of order
+        public decimal TotalPrice { get; set; } //UnitPrice * Quantity
 
         public Order Order { get; set; }
         public Product Product { get; set; }
