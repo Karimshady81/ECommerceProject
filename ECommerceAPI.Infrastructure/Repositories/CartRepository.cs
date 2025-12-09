@@ -19,12 +19,14 @@ namespace ECommerceAPI.Infrastructure.Repositories
         public async Task<IEnumerable<CartItem>> GetUserCartAsync(int userId)
         {
             return await _dbSet.Where(u => u.UserId == userId)
+                               .Include(p => p.Product)
                                .ToListAsync();
         }
 
         public async Task<CartItem?> GetCartItemsAsync(int userId, int productId)
         {
             return await _dbSet.Where(u => u.UserId == userId && u.ProductId == productId)
+                               .Include(p => p.Product)    
                                .SingleOrDefaultAsync();
         }
 
@@ -41,6 +43,20 @@ namespace ECommerceAPI.Infrastructure.Repositories
         {
             return await _dbSet.Where(u => u.UserId == userId)
                                .CountAsync();
+        }
+
+        public async Task<bool> RemoveFromCartAsync(int userId, int productId)
+        {
+            var cartItem = await _dbSet.Where(u => u.UserId == userId && u.ProductId == productId)
+                                       .SingleOrDefaultAsync();
+
+            if (cartItem == null)
+                return false;
+
+            _dbSet.Remove(cartItem);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

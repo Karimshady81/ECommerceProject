@@ -13,5 +13,6 @@ namespace ECommerceAPI.Domain.Interfaces
         Task<CartItem?> GetCartItemsAsync(int userId, int productId); // Check if already in cart
         Task ClearUserCartAsync(int userId); // After checkout
         Task<int> GetCartItemCountAsync(int userId);  // Cart badge/icon
+        Task<bool> RemoveFromCartAsync(int userId, int productId);
     }
 }
