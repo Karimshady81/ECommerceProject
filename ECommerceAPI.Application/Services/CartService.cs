@@ -152,8 +152,42 @@ namespace ECommerceAPI.Application.Services
             };
         }
 
+        public async Task<IEnumerable<CartItemsResponseDto>> GetUserCartAsync(int userId)
+        {
+            var userCart = await _cartRepository.GetUserCartAsync(userId);
 
+            // If cart is empty, return an empty list
+            if (!userCart.Any())
+                return new List<CartItemsResponseDto>();
 
+            var response = new List<CartItemsResponseDto>();
+
+            foreach(var item in userCart)
+            {
+                response.Add(new CartItemsResponseDto
+                {
+                    Id = item.Id,
+                    UserId = userId,
+                    ProductId = item.ProductId,
+                    ProductName = item.Product.Name,
+                    ProductImage = item.Product.Image,
+                    UnitPrice = item.Product.Price,
+                    Quantity = item.Quantity
+                });
+            }
+
+            return response;
+        }
+
+        public async Task ClearCartAsync(int userId)
+        {
+            var userCart = await _cartRepository.GetUserCartAsync(userId);
+
+            if (!userCart.Any())
+                return;
+
+            await _cartRepository.ClearUserCartAsync(userId);
+        }
 
     }
 }

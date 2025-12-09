@@ -14,7 +14,6 @@ namespace ECommerceAPI.Application.Interfaces
         Task<bool> RemoveFromCartAsync(int userId, int productId);
         Task<CartItemsResponseDto> UpdateQuantityAsync(int userId, int productId, int quantity);
         Task<IEnumerable<CartItemsResponseDto>> GetUserCartAsync(int userId);
-        Task<CartItemsResponseDto> GetCartItemsAsync(int userId, int productId);
         Task ClearCartAsync(int userId);
     }
 }
