@@ -20,7 +20,7 @@ namespace ECommerceAPI.Application.Services
             _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<ProductResponseDto>> GetAllProducstAsync()
+        public async Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync()
         {
             var products = await _productRepository.GetAllAsync();
 

@@ -14,74 +14,77 @@ namespace ECommerceAPI.Application.Services
     internal class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly ICartRepository _cartRepository;
         private readonly IProductRepository _productRepository;
         private readonly IUserRepository _userRepository;
 
-        public OrderService(IOrderRepository orderRepository, IProductRepository productRepository)
+        public OrderService(IOrderRepository orderRepository, ICartRepository cartRepository, IProductRepository productRepository, IUserRepository userRepository)
         {
             _orderRepository = orderRepository;
+            _cartRepository = cartRepository;
             _productRepository = productRepository;
+            _userRepository = userRepository;
         }
 
-        public async Task<OrderResponseDto> CreateUserOrderAsync(CreateOrderRequestDto orderDto)
-        {                    
-            //Check if the product exists
-            var product = await _productRepository.GetByIdAsync(orderDto.ProductId);
-            if (product == null)
-            {
-                throw new InvalidOperationException($"No product with this Id: {orderDto.ProductId}");
-            }
+        //public async Task<OrderResponseDto> CreateUserOrderAsync(CreateOrderRequestDto orderDto)
+        //{                    
+        //    //Check if the product exists
+        //    var product = await _productRepository.GetByIdAsync(orderDto.ProductId);
+        //    if (product == null)
+        //    {
+        //        throw new InvalidOperationException($"No product with this Id: {orderDto.ProductId}");
+        //    }
 
-            //Check stock availability
-            if (!await _productRepository.IsInStockAsync(orderDto.ProductId, orderDto.quantity))
-                throw new InvalidOperationException("Not enough in stock");
+        //    //Check stock availability
+        //    if (!await _productRepository.IsInStockAsync(orderDto.ProductId, orderDto.quantity))
+        //        throw new InvalidOperationException("Not enough in stock");
 
-            //Generate an order number
-            var orderNumber = await _orderRepository.GenerateOrderNumberAsync();
+        //    //Generate an order number
+        //    var orderNumber = await _orderRepository.GenerateOrderNumberAsync();
 
-            //Create order entity
-            var order = new Order
-            {
-                UserId = orderDto.UserId,
-                OrderNumber = orderNumber,
-                Status = OrderStatus.Pending,
-                ShippingAddress = orderDto.ShippingAddress,
-                CreatedAt = DateTime.UtcNow,
-                OrderItems = new List<OrderItem>()
-            };
+        //    //Create order entity
+        //    var order = new Order
+        //    {
+        //        UserId = orderDto.UserId,
+        //        OrderNumber = orderNumber,
+        //        Status = OrderStatus.Pending,
+        //        ShippingAddress = orderDto.ShippingAddress,
+        //        CreatedAt = DateTime.UtcNow,
+        //        OrderItems = new List<OrderItem>()
+        //    };
 
-            //Add order_item
-            var orderItem = new OrderItem
-            {
-                ProductId = product.Id,
-                Quantity = orderDto.quantity,
-                UnitPrice = product.Price,
-                TotalPrice = product.Price * orderDto.quantity
-            };
+        //    //Add order_item
+        //    var orderItem = new OrderItem
+        //    {
+        //        ProductId = product.Id,
+        //        Quantity = orderDto.quantity,
+        //        UnitPrice = product.Price,
+        //        TotalPrice = product.Price * orderDto.quantity
+        //    };
 
-            order.OrderItems.Add(orderItem);
+        //    order.OrderItems.Add(orderItem);
 
-            //Calculate total order
-            order.Total = order.OrderItems.Sum(i => i.TotalPrice);
+        //    //Calculate total order
+        //    order.Total = order.OrderItems.Sum(i => i.TotalPrice);
 
-            //Reduce stock
-            await _productRepository.ReduceStockAsync(product.Id, orderDto.quantity);
+        //    //Reduce stock
+        //    await _productRepository.ReduceStockAsync(product.Id, orderDto.quantity);
 
-            //save to database
-            var createdOrder = await _orderRepository.AddAsync(order);
+        //    //save to database
+        //    var createdOrder = await _orderRepository.AddAsync(order);
 
-            //Return DTO response
-            return new OrderResponseDto
-            {
-                OrderId = createdOrder.Id,
-                UserId = createdOrder.UserId,
-                OrderNumber = createdOrder.OrderNumber,
-                Total = createdOrder.Total,
-                Status = createdOrder.Status,
-                ShippingAddress = createdOrder.ShippingAddress,
-                CreatedAt = createdOrder.CreatedAt.ToString("B"),
-            };            
-        }
+        //    //Return DTO response
+        //    return new OrderResponseDto
+        //    {
+        //        OrderId = createdOrder.Id,
+        //        UserId = createdOrder.UserId,
+        //        OrderNumber = createdOrder.OrderNumber,
+        //        Total = createdOrder.Total,
+        //        Status = createdOrder.Status,
+        //        ShippingAddress = createdOrder.ShippingAddress,
+        //        CreatedAt = createdOrder.CreatedAt.ToString("B"),
+        //    };            
+        //}
 
         public async Task<OrderResponseDto> GetOrderWithDetailsAsync(int orderId)
         {
@@ -192,6 +195,76 @@ namespace ECommerceAPI.Application.Services
             }
 
             return response;
+        }
+
+        public async Task<OrderResponseDto> CheckoutAsync(int userId, string shippingAddress)
+        {
+            var cartItems = await _cartRepository.GetUserCartAsync(userId);
+            if (!cartItems.Any())
+                throw new InvalidOperationException("Cart is empty");
+
+            //Validate products and stock
+            foreach(var item in cartItems)
+            {
+                var product = await _productRepository.GetByIdAsync(item.ProductId);
+
+                if (product == null)
+                    throw new InvalidOperationException($"Product {item.ProductId} not found");
+
+                if (!await _productRepository.IsInStockAsync(item.ProductId, item.Quantity))
+                    throw new InvalidOperationException($"Not enough stock for product {product.Name}");
+            }
+
+            //Generate order
+            var orderNumber = await _orderRepository.GenerateOrderNumberAsync();
+
+            var order = new Order
+            {
+                UserId = userId,
+                OrderNumber = orderNumber,
+                Status = OrderStatus.Pending,
+                ShippingAddress = shippingAddress,
+                CreatedAt = DateTime.UtcNow,
+                OrderItems = new List<OrderItem>()
+            };
+
+            //Add order items
+            foreach(var item in cartItems)
+            {
+                var product = await _productRepository.GetByIdAsync(item.ProductId);
+
+                order.OrderItems.Add(new OrderItem
+                {
+                    ProductId = product.Id,
+                    Quantity = item.Quantity,
+                    UnitPrice = product.Price,
+                    TotalPrice = product.Price * item.Quantity
+                });
+
+                //Reduce stock
+                await _productRepository.ReduceStockAsync(product.Id, item.Quantity);
+            }
+
+            //Calculate total
+            order.Total = order.OrderItems.Sum(i => i.TotalPrice);
+
+            //Save order
+            var createdOrder = await _orderRepository.AddAsync(order);
+
+            //clear cart
+            await _cartRepository.ClearUserCartAsync(userId);
+
+            //Return order DTO
+            return new OrderResponseDto
+            {
+                OrderId = createdOrder.Id,
+                UserId = createdOrder.UserId,
+                OrderNumber = createdOrder.OrderNumber,
+                Total = createdOrder.Total,
+                Status = createdOrder.Status,
+                ShippingAddress = createdOrder.ShippingAddress,
+                CreatedAt = createdOrder.CreatedAt.ToString("B")
+            };
         }
 
         public async Task<bool> DeleteOrderAsync(int orderId)

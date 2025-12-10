@@ -11,11 +11,13 @@ namespace ECommerceAPI.Application.Interfaces
 {
     internal interface IOrderService
     {
-        Task<OrderResponseDto> CreateUserOrderAsync(CreateOrderRequestDto orderDto);
+        //Optional for buy now feature
+        //Task<OrderResponseDto> CreateUserOrderAsync(CreateOrderRequestDto orderDto);
         Task<OrderResponseDto> GetOrderWithDetailsAsync(int orderId);
         Task<IEnumerable<OrderResponseDto>> GetOrdersByUser(int userId);
         Task<OrderResponseDto> GetOrderByNumber(string orderNumber);
         Task<IEnumerable<OrderResponseDto>> GetOrderByStatusAsync(OrderStatus status);
+        Task<OrderResponseDto> CheckoutAsync(int userId, string shippingAddress);
         Task<bool> DeleteOrderAsync(int orderId); 
     }
 }

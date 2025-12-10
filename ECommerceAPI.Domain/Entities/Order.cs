@@ -10,6 +10,7 @@ namespace ECommerceAPI.Domain.Entities
     {
         Pending,
         Processing,
+        Paid,
         Shipped,
         Delivered,
         Cancelled

@@ -58,7 +58,7 @@ namespace ECommerceAPI.Application.Services
         {
             var user = await _userRepository.GetByEmailAsync(userDto.Email);
 
-            if (user == null || PasswordHasher.Verify(userDto.Password, user.PasswordHash))
+            if (user == null || !PasswordHasher.Verify(userDto.Password, user.PasswordHash))
             {
                 throw new InvalidOperationException("Invalid Credentials");
             }
@@ -127,7 +127,7 @@ namespace ECommerceAPI.Application.Services
                 existingUser.Phone = userDto.PhoneNumber;
             }
 
-            if(string.IsNullOrEmpty(userDto.Password) && existingUser.PasswordHash != userDto.Password)
+            if(string.IsNullOrEmpty(userDto.Password) || existingUser.PasswordHash != userDto.Password)
             {
                 if(userDto.Password.Length < 8)
                 {

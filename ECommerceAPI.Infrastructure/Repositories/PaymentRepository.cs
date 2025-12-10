@@ -16,7 +16,7 @@ namespace ECommerceAPI.Infrastructure.Repositories
         {
         }
 
-        public async Task<Payment?> GetByOrderIdAsync(int orderId)
+        public async Task<Payment?> GetPaymentByOrderIdAsync(int orderId)
         {
             return await _dbSet.Where(o => o.OrderId == orderId)
                                .SingleOrDefaultAsync();
@@ -25,14 +25,14 @@ namespace ECommerceAPI.Infrastructure.Repositories
         public async Task<IEnumerable<Payment>> GetPaymentsByStatusAsync(PaymentStatus status)
         {
             return await _dbSet.Where(s => s.PaymentStatus == status)
-                                .OrderByDescending(c => c.PaymentDate)
+                               .OrderByDescending(c => c.PaymentDate)
                                .Include(o => o.Order)
                                .ToListAsync();
         }
 
         public async Task<IEnumerable<Payment>> GetPaymentsByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            return await _dbSet.Where(p => p.PaymentDate >= startDate && p.PaymentDate <= endDate)
+            return await _dbSet.Where(p => p.PaymentDate >= startDate.Date && p.PaymentDate <= endDate.Date)
                                .ToListAsync();
         }
     }

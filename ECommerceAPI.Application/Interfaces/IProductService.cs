@@ -10,7 +10,7 @@ namespace ECommerceAPI.Application.Interfaces
 {
     internal interface IProductService
     {
-        Task<IEnumerable<ProductResponseDto>> GetAllProducstAsync();
+        Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync();
         Task<ProductResponseDto> GetProductByIdAsync(int productId);
         Task<IEnumerable<ProductResponseDto>> GetProductByCategoryAsync(int categoryId);
         Task<IEnumerable<ProductResponseDto>> GetActiveProductsAsync();

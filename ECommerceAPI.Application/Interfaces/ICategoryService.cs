@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ECommerceAPI.Application.DTOs.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace ECommerceAPI.Application.Interfaces
 {
     internal interface ICategoryService
     {
+        Task<IEnumerable<CategoryResponseDto>> GetActiveCategoriesAsync();
+        Task<CategoryResponseDto?> GetCategoryWithProductsAsync(int categoryId);
     }
 }
