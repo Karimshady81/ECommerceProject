@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Interfaces
 {
-    internal interface ICategoryService
+    public interface ICategoryService
     {
         Task<IEnumerable<CategoryResponseDto>> GetActiveCategoriesAsync();
         Task<CategoryResponseDto?> GetCategoryWithProductsAsync(int categoryId);

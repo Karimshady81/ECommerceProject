@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.DTOs.Response
 {
-    internal class ProductResponseDto
+    public class ProductResponseDto
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }

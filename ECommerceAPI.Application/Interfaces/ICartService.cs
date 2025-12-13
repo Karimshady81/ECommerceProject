@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Interfaces
 {
-    internal interface ICartService
+    public interface ICartService
     {
 
         Task<CartItemsResponseDto> AddToCartAsync(int userId, int productId, int quantity);

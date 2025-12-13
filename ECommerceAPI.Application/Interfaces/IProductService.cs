@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Interfaces
 {
-    internal interface IProductService
+    public interface IProductService
     {
         Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync();
         Task<ProductResponseDto> GetProductByIdAsync(int productId);

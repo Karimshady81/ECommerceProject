@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.DTOs.Request
 {
-    internal class UpdateProductRequestDto
+    public class UpdateProductRequestDto
     {
         public string? Name { get; set; }
         public string? Description { get; set; }

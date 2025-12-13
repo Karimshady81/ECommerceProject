@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ECommerceAPI.Application.Services
+namespace ECommerceAPI.Application.Interfaces
 {
-    internal interface IJwtService
+    public interface IJwtService
     {
         string GenerateToken(string userId, string email);
     }

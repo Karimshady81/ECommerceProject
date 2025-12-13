@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.DTOs.Request
 {
-    internal class LoginUserRequestDto
+    public class LoginUserRequestDto
     {
         public string Email { get; set; }
         public string Password { get; set; }

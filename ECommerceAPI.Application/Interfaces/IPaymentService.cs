@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Interfaces
 {
-    internal interface IPaymentService
+    public interface IPaymentService
     {
         Task<PaymentResponseDto> CreatePaymentAsync(int orderId, PaymentMethod paymentMethod);
         Task<PaymentResponseDto> GetPaymentByOrderIdAsync(int orderId);

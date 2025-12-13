@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.DTOs.Request
 {
-    internal class UpdateUserRequestDto
+    public class UpdateUserRequestDto
     {
         [Required, MinLength(8), PasswordPropertyText]
         public string Password { get; set; }

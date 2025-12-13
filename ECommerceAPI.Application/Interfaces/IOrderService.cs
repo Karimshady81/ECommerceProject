@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Interfaces
 {
-    internal interface IOrderService
+    public interface IOrderService
     {
         //Optional for buy now feature
         //Task<OrderResponseDto> CreateUserOrderAsync(CreateOrderRequestDto orderDto);

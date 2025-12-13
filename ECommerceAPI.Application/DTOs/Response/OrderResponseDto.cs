@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.DTOs.Response
 {
-    internal class OrderResponseDto
+    public class OrderResponseDto
     {
         public int OrderId { get; set; }
         public int UserId { get; set; }

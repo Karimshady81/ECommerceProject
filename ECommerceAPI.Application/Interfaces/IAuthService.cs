@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Interfaces
 {
-    internal interface IAuthService
+    public interface IAuthService
     {
         Task<AuthResponseDto> RegisterUserAsync(RegisterUserRequestDto userDto);
         Task<AuthResponseDto?> LoginUserAsync(LoginUserRequestDto userDto);

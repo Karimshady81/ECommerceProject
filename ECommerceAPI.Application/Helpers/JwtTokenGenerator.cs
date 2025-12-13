@@ -1,4 +1,4 @@
-﻿using ECommerceAPI.Application.Services;
+﻿using ECommerceAPI.Application.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

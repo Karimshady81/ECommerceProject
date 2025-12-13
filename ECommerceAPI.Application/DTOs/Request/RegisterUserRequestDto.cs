@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.DTOs.Request
 {
-    internal class RegisterUserRequestDto
+    public class RegisterUserRequestDto
     {
         [Required, EmailAddress]
         public string Email { get; set; }
