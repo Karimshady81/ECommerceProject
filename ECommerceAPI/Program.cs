@@ -1,18 +1,17 @@
 using ECommerceAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using ECommerceAPI.Application.DependencyInjection;
+using ECommerceAPI.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddApplicationLayer();
+builder.Services.AddInfastrucutreService(builder.Configuration);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"
-    ));
-});
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
