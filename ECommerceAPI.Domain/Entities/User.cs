@@ -20,9 +20,9 @@ namespace ECommerceAPI.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Phone { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        public string? Address { get; set; } 
+        public string? City { get; set; }
+        public string? Country { get; set; }
         public UserRole Role { get; set; } = UserRole.Customer;
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }

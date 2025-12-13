@@ -35,7 +35,7 @@ namespace ECommerceAPI.Application.Services
                 LastName = userDto.LastName,
                 Email = userDto.Email,
                 PasswordHash = PasswordHasher.Hash(userDto.Password),
-                Phone = userDto.PhoneNumber,
+                Phone = userDto.PhoneNumber,                
                 CreatedAt = DateTime.UtcNow
             };
 
