@@ -60,16 +60,18 @@ namespace ECommerceAPI.Application.Services
             if (product == null)
                 throw new InvalidOperationException($"No product with this ID: {productId} ");
 
+            var category = await _categoryRepository.GetCategoryWithProductsAsync(product.CategoryId);
+
             return new ProductResponseDto
             {
                 Id = product.Id,
-                CategoryName = product.Category?.Name,
+                CategoryName = category?.Name,
                 Name = product.Name,
                 Description = product.Description,
                 Image = product.Image,
                 Price = product.Price,
                 StockQuantity = product.StockQuantity,
-                AddedDate = product.CreatedAt.ToString("B")
+                AddedDate = product.CreatedAt.ToString("D")
             };
         }
 
@@ -78,16 +80,18 @@ namespace ECommerceAPI.Application.Services
             var products = await _productRepository.GetByCategoryAsync(categoryId);
 
             if (products == null || !products.Any())
-                throw new InvalidOperationException($"No products with this category Id: {categoryId}");
+                throw new InvalidOperationException($"No products with this category Id: {categoryId}");           
 
             var response = new List<ProductResponseDto>();
 
             foreach(var product in products)
             {
+                var category = await _categoryRepository.GetCategoryWithProductsAsync(product.CategoryId);
+
                 response.Add(new ProductResponseDto
                 {
                     Id = product.Id,
-                    CategoryName = product.Category?.Name,
+                    CategoryName = category?.Name,
                     Name = product.Name,
                     Description = product.Description,
                     Image = product.Image,
@@ -111,16 +115,18 @@ namespace ECommerceAPI.Application.Services
 
             foreach(var product in products)
             {
+                var category = await _categoryRepository.GetCategoryWithProductsAsync(product.CategoryId);
+
                 response.Add(new ProductResponseDto
                 {
                     Id = product.Id,
-                    CategoryName = product.Category?.Name,
+                    CategoryName = category?.Name,
                     Name = product.Name,
                     Description = product.Description,
                     Image = product.Image,
                     Price = product.Price,
                     StockQuantity = product.StockQuantity,
-                    AddedDate = product.CreatedAt.ToString("B")
+                    AddedDate = product.CreatedAt.ToString("D")
                 });
             }
 
@@ -178,28 +184,27 @@ namespace ECommerceAPI.Application.Services
 
             // Update only provided numeric fields
             if (productDto.Price.HasValue)
-                existingProduct.Price = productDto.Price.Value;
-
-            if (productDto.StockQuantity.HasValue)
-                existingProduct.StockQuantity = productDto.StockQuantity.Value;
+                existingProduct.Price = productDto.Price.Value;            
 
             if (productDto.IsActive.HasValue)
-                existingProduct.IsActive = productDto.IsActive.Value;
+                existingProduct.IsActive = productDto.IsActive.Value;           
 
             existingProduct.UpdateAt = DateTime.UtcNow;
 
             //Update in database
             var updatedProduct = await _productRepository.UpdateAsync(existingProduct);
 
+            var category = await _categoryRepository.GetCategoryWithProductsAsync(updatedProduct.CategoryId);
+
             return new ProductResponseDto
             {
                 Id = existingProduct.Id,
-                CategoryName = existingProduct.Category?.Name,
+                CategoryName = category?.Name,
                 Name = existingProduct.Name,
                 Description = existingProduct.Description,
                 Price = existingProduct.Price,
                 StockQuantity = existingProduct.StockQuantity,
-                UpdatedAt = existingProduct.UpdateAt.ToString("B")
+                UpdatedAt = existingProduct.UpdateAt.ToString("D")
             };
         }
 
@@ -214,34 +219,35 @@ namespace ECommerceAPI.Application.Services
             return await _productRepository.DeleteAsync(productId);
         }
 
-        public async Task<ProductResponseDto> UpdateStockAsync(int productId, int quantity)
+        // Only StockQuantity is used here; all other fields are ignored intentionally.
+        public async Task<ProductResponseDto> ReduceStockAsync(int productId, UpdateProductRequestDto reducedQuantity)
         {
             var product = await _productRepository.GetByIdAsync(productId);
 
             if (product == null)
             {
-                throw new InvalidOperationException($"No product with this Id: ${productId}");
+                throw new InvalidOperationException($"No product with this Id: {productId}");
             }
 
-            product.StockQuantity -= quantity;
-
-            if (product.StockQuantity < 0) 
-            {
+            if (product.StockQuantity < reducedQuantity.StockQuantity)
                 throw new InvalidOperationException("Not enough stock available");
-            }
+
+            product.StockQuantity -= reducedQuantity.StockQuantity;
+            product.UpdateAt = DateTime.UtcNow;
 
             var updated = await _productRepository.UpdateAsync(product);
+            var category = await _categoryRepository.GetCategoryWithProductsAsync(updated.CategoryId);
 
             return new ProductResponseDto
             {
                 Id = updated.Id,
-                CategoryName = updated.Category?.Name,
+                CategoryName = category?.Name,
                 Name = updated.Name,
                 Description = updated.Description,
                 Image = updated.Image,
                 Price = updated.Price,
                 StockQuantity = updated.StockQuantity,
-                UpdatedAt = updated.UpdateAt.ToString("B")
+                UpdatedAt = updated.UpdateAt.ToString("D")
             };
         }
 
