@@ -14,15 +14,17 @@ namespace ECommerceAPI.Application.Services
     internal class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync()
         {
-            var products = await _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync();            
 
             if (products == null || !products.Any())
                 throw new InvalidOperationException("No Products found");
@@ -33,16 +35,18 @@ namespace ECommerceAPI.Application.Services
             //Map each product entity -> DTO
             foreach (var product in products)
             {
+                var category = await _categoryRepository.GetCategoryWithProductsAsync(product.CategoryId);
+
                 response.Add(new ProductResponseDto
                 {
                     Id = product.Id,
-                    CategoryName = product.Category?.Name,
+                    CategoryName = category?.Name,
                     Name = product.Name,
                     Description = product.Description,
                     Image = product.Image,
                     Price = product.Price,
                     StockQuantity = product.StockQuantity,
-                    AddedDate = product.CreatedAt.ToString("B")
+                    AddedDate = product.CreatedAt.ToString("D")
                 });
             }
 
@@ -139,16 +143,18 @@ namespace ECommerceAPI.Application.Services
 
             var createdProduct = await _productRepository.AddAsync(product);
 
+            var category = await _categoryRepository.GetCategoryWithProductsAsync(createdProduct.CategoryId);
+
             return new ProductResponseDto
             {
                 Id = createdProduct.Id,
-                CategoryName = createdProduct.Category.Name,
+                CategoryName = category?.Name,
                 Name = createdProduct.Name,
                 Description = createdProduct.Description,
                 Image = createdProduct.Image,
                 Price = createdProduct.Price,
                 StockQuantity = createdProduct.StockQuantity,
-                AddedDate = createdProduct.CreatedAt.ToString("B")
+                AddedDate = createdProduct.CreatedAt.ToString("D")
             };
         }
 
