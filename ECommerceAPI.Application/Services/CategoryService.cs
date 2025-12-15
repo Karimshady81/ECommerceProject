@@ -1,5 +1,7 @@
-﻿using ECommerceAPI.Application.DTOs.Response;
+﻿using ECommerceAPI.Application.DTOs.Request;
+using ECommerceAPI.Application.DTOs.Response;
 using ECommerceAPI.Application.Interfaces;
+using ECommerceAPI.Domain.Entities;
 using ECommerceAPI.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,26 @@ namespace ECommerceAPI.Application.Services
         public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
+        }
+
+        public async Task<CategoryResponseDto> CreateCategoryAsync(CreateCategoryRequestDto categoryDto)
+        {
+            var category = new Category
+            {              
+                Name = categoryDto.Name,
+                Description = categoryDto.Description,
+                IsActive = categoryDto.IsActive
+            };
+
+            var createdCategory = await _categoryRepository.AddAsync(category);
+
+            return new CategoryResponseDto
+            {
+                Id = createdCategory.Id,
+                Name = createdCategory.Name,
+                Description = createdCategory.Description,
+                IsActive = createdCategory.IsActive,
+            };
         }
 
         public async Task<IEnumerable<CategoryResponseDto>> GetActiveCategoriesAsync()
