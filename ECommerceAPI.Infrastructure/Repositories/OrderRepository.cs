@@ -31,7 +31,10 @@ namespace ECommerceAPI.Infrastructure.Repositories
 
         public async Task<Order?> GetOrderByNumberAsync(string orderNumber)
         {
-            return await _dbSet.SingleOrDefaultAsync(o => o.OrderNumber == orderNumber);
+            return await _dbSet.Where(o => o.OrderNumber == orderNumber)
+                               .Include(oi => oi.OrderItems)
+                               .ThenInclude(p => p.Product)
+                               .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Order>> GetOrdersByStatusAsync(OrderStatus status)
