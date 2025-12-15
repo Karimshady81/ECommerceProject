@@ -73,7 +73,7 @@ namespace ECommerceAPI.Application.Services
             var categories = await _categoryRepository.GetCategoryWithProductsAsync(categoryId);
 
             if (categories == null)
-                throw new InvalidOperationException("No categories found");
+                throw new InvalidOperationException($"No categories found with Id: {categoryId}");
 
             return new CategoryResponseDto
             {

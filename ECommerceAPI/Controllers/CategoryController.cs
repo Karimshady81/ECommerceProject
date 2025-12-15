@@ -59,5 +59,27 @@ namespace ECommerceAPI.Controllers
                 });
             }
         }
+
+        [HttpGet("get_categories_with_products/{categoryId}")]
+        public async Task<IActionResult> GetCategoriesWithProducts(int categoryId)
+        {
+            try
+            {
+                var category = await _categoryService.GetCategoryWithProductsAsync(categoryId);
+                return Ok(category);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message
+                });
+            }
+        }
     }
 }
