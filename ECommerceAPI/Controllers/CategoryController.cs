@@ -37,5 +37,27 @@ namespace ECommerceAPI.Controllers
                 });
             }
         }
+
+        [HttpGet("get_active_categories")]
+        public async Task<IActionResult> GetActiveCategories()
+        {
+            try
+            {
+                var categories = await _categoryService.GetActiveCategoriesAsync();
+                return Ok(categories);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message
+                });
+            }
+        }
     }
 }
