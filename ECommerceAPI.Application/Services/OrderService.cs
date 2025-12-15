@@ -158,7 +158,7 @@ namespace ECommerceAPI.Application.Services
                 Total = order.Total,
                 Status = order.Status,
                 ShippingAddress = order.ShippingAddress,
-                CreatedAt = order.CreatedAt.ToString("B"),
+                CreatedAt = order.CreatedAt.ToString("D"),
                 OrderItems = order.OrderItems.Select(item => new OrderItemsResponseDto
                 {
                     ProductId = item.ProductId,
