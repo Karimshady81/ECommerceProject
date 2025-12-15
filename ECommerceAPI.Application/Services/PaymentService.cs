@@ -23,6 +23,10 @@ namespace ECommerceAPI.Application.Services
 
         public async Task<PaymentResponseDto> CreatePaymentAsync(int orderId, PaymentMethod paymentMethod)
         {
+            var existingPayment = await _paymentRepository.GetPaymentByOrderIdAsync(orderId);
+            if (existingPayment != null)
+                throw new InvalidOperationException("This order already has a payment.");
+
             var order = await _orderRepository.GetByIdAsync(orderId);
 
             if (order == null)
