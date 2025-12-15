@@ -93,7 +93,7 @@ namespace ECommerceAPI.Application.Services
             var product = await _productRepository.GetByIdAsync(productId);
 
             if (product == null)
-                throw new InvalidOperationException($"No product found with this Id: {productId} Or not enough quantity");
+                throw new InvalidOperationException($"No product found with this Id: {productId}");
 
             return await _cartRepository.RemoveFromCartAsync(userId, productId);
         }
