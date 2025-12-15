@@ -33,7 +33,7 @@ namespace ECommerceAPI.Application.Services
             //Validate product
             var product = await _productRepository.GetByIdAsync(productId);
             if (product == null)
-                throw new InvalidOperationException($"No product found with this Id: {productId} Or not enough quantity");
+                throw new InvalidOperationException($"No product found with this Id: {productId}");
 
             //Check stock
             if (!await _productRepository.IsInStockAsync(productId, quantity))
