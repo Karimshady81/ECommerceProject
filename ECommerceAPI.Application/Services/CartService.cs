@@ -73,12 +73,13 @@ namespace ECommerceAPI.Application.Services
 
             return new CartItemsResponseDto
             {
+                Id = createdCart.Id,
                 UserId = createdCart.UserId,
                 ProductId = createdCart.ProductId,
                 ProductName = createdCart.Product.Name,
                 ProductImage = createdCart.Product.Image,
                 UnitPrice = createdCart.Product.Price,
-                Quantity = quantity,
+                Quantity = quantity
             };
         }
 

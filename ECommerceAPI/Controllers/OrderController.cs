@@ -36,5 +36,27 @@ namespace ECommerceAPI.Controllers
                 });
             }
         }
+
+        [HttpPost("check_out")]
+        public async Task<IActionResult> CheckOut(int userId, string shippingAddress)
+        {
+            try
+            {
+                var checkOut = await _orderService.CheckoutAsync(userId, shippingAddress);
+                return Ok(checkOut);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message
+                });
+            }
+        }
     }
 }

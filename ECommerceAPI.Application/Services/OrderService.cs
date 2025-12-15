@@ -88,7 +88,7 @@ namespace ECommerceAPI.Application.Services
 
         public async Task<OrderResponseDto> GetOrderWithDetailsAsync(int orderId)
         {
-            var order = await _orderRepository.GetByIdAsync(orderId);
+            var order = await _orderRepository.GetOrderWithDetailsAsync(orderId); 
             
             if (order == null)
             {
@@ -103,7 +103,7 @@ namespace ECommerceAPI.Application.Services
                 Total = order.Total,
                 Status = order.Status,
                 ShippingAddress = order.ShippingAddress,
-                CreatedAt = order.CreatedAt.ToString("B"),
+                CreatedAt = order.CreatedAt.ToString("D"),
                 OrderItems = order.OrderItems.Select(item => new OrderItemsResponseDto
                 {
                     ProductId = item.ProductId,
@@ -263,7 +263,7 @@ namespace ECommerceAPI.Application.Services
                 Total = createdOrder.Total,
                 Status = createdOrder.Status,
                 ShippingAddress = createdOrder.ShippingAddress,
-                CreatedAt = createdOrder.CreatedAt.ToString("B")
+                CreatedAt = createdOrder.CreatedAt.ToString("D")
             };
         }
 
