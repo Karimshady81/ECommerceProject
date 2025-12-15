@@ -16,6 +16,11 @@ namespace ECommerceAPI.Infrastructure.Repositories
         {
         }
 
+        public async Task<bool> CategoryExistsAsync(string categoryName)
+        {
+            return await _dbSet.AnyAsync(c => c.Name.ToLower() == categoryName.ToLower());
+        }
+
         public async Task<IEnumerable<Category>> GetActiveCategoriesAsync()
         {
             return await _dbSet.Where(c => c.IsActive)

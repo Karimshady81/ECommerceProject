@@ -11,5 +11,6 @@ namespace ECommerceAPI.Domain.Interfaces
     {
         Task<IEnumerable<Category>> GetActiveCategoriesAsync(); // Navigation menu
         Task<Category?> GetCategoryWithProductsAsync(int categoryId); // Category page
+        Task<bool> CategoryExistsAsync(string categoryName);
     }
 }

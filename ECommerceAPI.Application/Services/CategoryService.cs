@@ -22,6 +22,11 @@ namespace ECommerceAPI.Application.Services
 
         public async Task<CategoryResponseDto> CreateCategoryAsync(CreateCategoryRequestDto categoryDto)
         {
+            var categoryExists = await _categoryRepository.CategoryExistsAsync(categoryDto.Name);
+
+            if (categoryExists)
+                throw new InvalidOperationException($"Category '{categoryDto.Name}' already exists.");
+
             var category = new Category
             {              
                 Name = categoryDto.Name,
