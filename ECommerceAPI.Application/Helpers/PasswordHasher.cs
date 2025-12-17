@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Helpers
 {
-    internal class PasswordHasher
+    public class PasswordHasher
     {
         public static string Hash(string password)
         {
