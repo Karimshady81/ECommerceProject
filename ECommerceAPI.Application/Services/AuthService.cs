@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAPI.Application.Services
 {
-    internal class AuthService : IAuthService
+    public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
 
@@ -23,7 +23,18 @@ namespace ECommerceAPI.Application.Services
 
         public async Task<AuthResponseDto> RegisterUserAsync(RegisterUserRequestDto userDto)
         {
-            if(await _userRepository.EmailExistsAsync(userDto.Email))
+            //Validate input FIRST (Caught this using testing)
+            if (string.IsNullOrEmpty(userDto.Email))
+                throw new InvalidOperationException("Email is required");
+
+            if (string.IsNullOrWhiteSpace(userDto.Password))
+                throw new InvalidOperationException("Password is required");
+
+            if (userDto.Password != userDto.ConfirmPassword)
+                throw new InvalidOperationException("Passwords do not match");
+
+            // Business rules SECOND
+            if (await _userRepository.EmailExistsAsync(userDto.Email))
             {
                 throw new InvalidOperationException("Unable to register user");
             }
