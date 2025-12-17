@@ -73,6 +73,7 @@ namespace ECommerceAPI.Application.Services
 
         public async Task<AuthResponseDto?> LoginUserAsync(LoginUserRequestDto userDto)
         {
+            //Check if user email exists
             var user = await _userRepository.GetByEmailAsync(userDto.Email);
 
             if (user == null || !PasswordHasher.Verify(userDto.Password, user.PasswordHash))

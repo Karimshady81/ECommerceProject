@@ -3,6 +3,7 @@ using ECommerceAPI.Application.Services;
 using Moq;
 using ECommerceAPI.Application.DTOs.Request;
 using FluentAssertions;
+using ECommerceAPI.Domain.Entities;
 
 namespace ECommerceAPI.Application.Tests
 {
@@ -40,6 +41,30 @@ namespace ECommerceAPI.Application.Tests
             await act.Should()
                      .ThrowAsync<InvalidOperationException>();            
         }
+
+        [Fact]
+        public async Task LoginUserAsync_houldThrowException_WhenEmailDoesntExist()
+        {
+            //Arrange
+            var user = new LoginUserRequestDto
+            {
+                Email = "test1@mail.com",
+                Password = "123456789@"
+            };
+
+            _userRepoMock
+                .Setup(u => u.GetByEmailAsync(user.Email))
+                .ReturnsAsync((User?)null);
+
+            //Act
+            Func<Task> act = async () => await _sut.LoginUserAsync(user);
+
+            //Assert
+            await act.Should()
+                     .ThrowAsync<InvalidOperationException>()
+                     .WithMessage("Invalid Credentials");
+        }
+
 
     }
 }
