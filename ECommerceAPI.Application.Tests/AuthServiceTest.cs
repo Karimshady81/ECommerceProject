@@ -25,12 +25,12 @@ namespace ECommerceAPI.Application.Tests
             //Arrange
             var user = new RegisterUserRequestDto
             {
-                Email = "",
+                Email = "test@mail.com",
                 Password = "123456789@",
                 ConfirmPassword = "123456789@",
                 FirstName = "test",
                 LastName = "test",
-                PhoneNumber = "0123456789"
+                PhoneNumber = ""
             };
 
             //Act
@@ -40,5 +40,6 @@ namespace ECommerceAPI.Application.Tests
             await act.Should()
                      .ThrowAsync<InvalidOperationException>();            
         }
+
     }
 }

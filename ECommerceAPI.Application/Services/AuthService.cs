@@ -33,6 +33,12 @@ namespace ECommerceAPI.Application.Services
             if (userDto.Password != userDto.ConfirmPassword)
                 throw new InvalidOperationException("Passwords do not match");
 
+            if (string.IsNullOrEmpty(userDto.FirstName) || string.IsNullOrEmpty(userDto.LastName))
+                throw new InvalidOperationException("Name is required");
+
+            if (string.IsNullOrEmpty(userDto.PhoneNumber))
+                throw new InvalidOperationException("Phone number is required");
+
             // Business rules SECOND
             if (await _userRepository.EmailExistsAsync(userDto.Email))
             {
