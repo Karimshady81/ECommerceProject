@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using ECommerceAPI.Infrastructure.Data;
 using ECommerceAPI.Domain.Entities;
+using ECommerceAPI.Application.Helpers;
 
 namespace ECommerceAPI.IntegrationTests
 {
@@ -51,7 +52,7 @@ namespace ECommerceAPI.IntegrationTests
             {
                 Id = 1,
                 Email = "Test@mail.com",
-                PasswordHash = "123456789",
+                PasswordHash = PasswordHasher.Hash("123456789"),
                 FirstName = "test",
                 LastName = "test",
                 Phone = "123456789"
