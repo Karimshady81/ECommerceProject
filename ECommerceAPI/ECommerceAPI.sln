@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceAPI.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceAPI.Application.Tests", "..\ECommerceAPI.Application.Tests\ECommerceAPI.Application.Tests.csproj", "{DE8FB527-1C99-4F80-871F-85F72E70A29C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceAPI.IntegrationTests", "..\ECommerceAPI.IntegrationTests\ECommerceAPI.IntegrationTests.csproj", "{F8080CB7-DC91-430C-8973-89D4E6C69EA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DE8FB527-1C99-4F80-871F-85F72E70A29C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE8FB527-1C99-4F80-871F-85F72E70A29C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE8FB527-1C99-4F80-871F-85F72E70A29C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8080CB7-DC91-430C-8973-89D4E6C69EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8080CB7-DC91-430C-8973-89D4E6C69EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8080CB7-DC91-430C-8973-89D4E6C69EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8080CB7-DC91-430C-8973-89D4E6C69EA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
