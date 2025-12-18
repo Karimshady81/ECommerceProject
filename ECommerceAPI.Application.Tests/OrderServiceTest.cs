@@ -82,6 +82,53 @@ namespace ECommerceAPI.Application.Tests
                      .ThrowAsync<InvalidOperationException>()
                      .WithMessage("Product 10 not found");
         }
+        
+        [Fact]
+        public async Task CheckoutAsync_ShouldThrowException_WhenInsufficientStock()
+        {
+            //Arrange
+            int userId = 1;
+
+            var cartItems = new List<CartItem>
+            {
+                new CartItem
+                {
+                    ProductId = 1,
+                    Quantity = 2
+                }
+            };
+
+            var product = new Product
+            {
+                Id = 1,
+                Name = "Phone",
+                Price = 1000
+            };
+
+            _cartRepoMock
+                .Setup(u => u.GetUserCartAsync(userId))
+                .ReturnsAsync(cartItems);
+
+            _productRepoMock
+                .Setup(p => p.GetByIdAsync(1))
+                .ReturnsAsync(product);
+
+            _productRepoMock
+                .Setup(p => p.IsInStockAsync(1, 2))
+                .ReturnsAsync(false);
+            //Act
+            Func<Task> act = async () => await _sut.CheckoutAsync(userId, "Cairo");
+
+            //Assert
+            await act.Should()
+                     .ThrowAsync<InvalidOperationException>()
+                     .WithMessage($"Not enough stock for product {product.Name}");
+
+            _productRepoMock.Verify(
+                p => p.ReduceStockAsync(It.IsAny<int>(), It.IsAny<int>()),
+                Times.Never
+            );
+        }
 
         [Fact]
         public async Task CheckoutAsync_ShouldCreateOrder_WhenEveryThingIsValid()
