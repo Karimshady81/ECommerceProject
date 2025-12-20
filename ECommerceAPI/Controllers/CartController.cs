@@ -1,4 +1,5 @@
-﻿using ECommerceAPI.Application.Interfaces;
+﻿using ECommerceAPI.Application.DTOs.Request;
+using ECommerceAPI.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,11 @@ namespace ECommerceAPI.Controllers
         }
 
         [HttpPost("add_to_cart")]
-        public async Task<IActionResult> AddToCart(int userId, int productId, int quantity)
+        public async Task<IActionResult> AddToCart([FromBody]AddToCartRequestDto request)
         {
             try
             {
-                var addedToCart = await _cartService.AddToCartAsync(userId, productId, quantity);
+                var addedToCart = await _cartService.AddToCartAsync(request.UserId,request.ProductId,request.Quantity);
                 return Ok(addedToCart);
             }
             catch (InvalidOperationException ex)
