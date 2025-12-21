@@ -66,6 +66,14 @@ namespace ECommerceAPI.IntegrationTests
                 StockQuantity = 10
             });
 
+            context.CartItems.Add(new CartItem
+            {
+                Id = 1,
+                UserId = 1,
+                ProductId = 1,
+                Quantity = 2
+            });
+
             context.Categories.Add(new Category
             {
                 Id = 1,

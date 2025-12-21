@@ -1,4 +1,5 @@
 ﻿using ECommerceAPI.Application.DTOs.Request;
+using ECommerceAPI.Domain.Entities;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,75 @@ namespace ECommerceAPI.IntegrationTests
 
             //Assert
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task RemoveFromCart_ReturnSuccess()
+        {
+            //Arrange
+            var removeRequest = new RemoveFromCartRequestDto
+            {
+                UserId = 1,
+                ProductId = 1
+            };
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(removeRequest),
+                Encoding.UTF8,
+                "application/json");
+
+            //Act
+            var response = await _client.DeleteAsync($"api/cart/remove_from_cart?userId={removeRequest.UserId}&productId={removeRequest.ProductId}");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public async Task RemoveFromCart_WithNoProduct_ReturnBadRequest()
+        {
+            //Arrange
+            var removeRequest = new RemoveFromCartRequestDto
+            {
+                UserId = 1,
+                ProductId = 20
+            }; 
+
+            var content = new StringContent(
+                JsonSerializer.Serialize(removeRequest),
+                Encoding.UTF8,
+                "application/json");
+
+            //Act
+            var response = await _client.DeleteAsync($"api/cart/remove_from_cart?userId={removeRequest.UserId}&productId={removeRequest.ProductId}");
+            
+            //Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        }
+        
+        [Fact]
+        public async Task GetUserCart_ReturnSuccess()
+        {
+            //Arrange          
+
+            //Act
+            var response = await _client.GetAsync("api/cart/get_user_cart/1");
+
+            //Assert
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            Assert.NotNull(responseString);
+        }
+
+        [Fact]
+        public async Task GetUserCart_WithInvalidUser_ReturnsBadRequest()
+        {
+            //Act
+            var response = await _client.GetAsync("api/cart/get_user_cart/999");
+
+            //Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }

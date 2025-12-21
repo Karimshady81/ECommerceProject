@@ -155,6 +155,11 @@ namespace ECommerceAPI.Application.Services
 
         public async Task<IEnumerable<CartItemsResponseDto>> GetUserCartAsync(int userId)
         {
+            var userExists = await _userRepository.GetByIdAsync(userId);
+            
+            if (userExists == null)
+                throw new InvalidOperationException("User doesnt exist");
+
             var userCart = await _cartRepository.GetUserCartAsync(userId);
 
             // If cart is empty, return an empty list
