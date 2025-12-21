@@ -1,5 +1,6 @@
 ﻿using ECommerceAPI.Application.DTOs.Request;
 using ECommerceAPI.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ECommerceAPI.Controllers
             _productService = productService;
         }
 
+        [Authorize]
         [HttpPost("add_product")]
         public async Task<IActionResult> CreateProduct(CreateProductRequestDto product)
         {
@@ -126,6 +128,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("update_product/{productId}")]
         public async Task<IActionResult> UpdateProduct(int productId,UpdateProductRequestDto updateProduct)
         {
@@ -148,6 +151,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("reduce_quantity/{productId}")]
         public async Task<IActionResult> ReduceStock(int productId,UpdateProductRequestDto reducedQuantity)
         {
@@ -198,6 +202,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("delete_product/{productId}")]
         public async Task<IActionResult> DeleteProduct(int productId)
         {

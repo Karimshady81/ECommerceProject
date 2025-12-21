@@ -1,5 +1,6 @@
 ﻿using ECommerceAPI.Application.DTOs.Request;
 using ECommerceAPI.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ECommerceAPI.Controllers
             _cartService = cartService;
         }
 
+        [Authorize]
         [HttpPost("add_to_cart")]
         public async Task<IActionResult> AddToCart([FromBody]AddToCartRequestDto request)
         {
@@ -38,6 +40,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("remove_from_cart")]
         public async Task<IActionResult> RemoveFromCart(int userId, int productId)
         {
@@ -64,6 +67,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("update_cart_quantity")]
         public async Task<IActionResult> UpdateCartQuantity(int userId,int productId, int quantity)
         {
@@ -86,6 +90,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("get_user_cart/{userId}")]
         public async Task<IActionResult> GetUserCart(int userId)
         {
@@ -106,8 +111,9 @@ namespace ECommerceAPI.Controllers
                     inner = ex.InnerException?.Message
                 });
             }
-        } 
+        }
 
+        [Authorize]
         [HttpDelete("clear_cart/{userId}")]
         public async Task<IActionResult> ClearCart(int userId)
         {

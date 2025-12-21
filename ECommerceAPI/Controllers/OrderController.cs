@@ -1,5 +1,6 @@
 ﻿using ECommerceAPI.Application.Interfaces;
 using ECommerceAPI.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ECommerceAPI.Controllers
             _orderService = orderService;
         }
 
+        [Authorize]
         [HttpGet("get_order_by_order_id/{orderId}")]
         public async Task<IActionResult> GetOrderWithDetails (int orderId)
         {
@@ -38,6 +40,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("check_out")]
         public async Task<IActionResult> CheckOut(int userId, string shippingAddress)
         {
@@ -60,6 +63,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("get_order_by_user/{userId}")]
         public async Task<IActionResult> GetOrderByUser(int userId)
         {
@@ -82,6 +86,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("get_order_by_number/{orderNumber}")]
         public async Task<IActionResult> GetOrderByNumber(string orderNumber)
         {
@@ -104,6 +109,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("get_order_by_status")]
         public async Task<IActionResult> GetOrderByStatus(OrderStatus status)
         {
@@ -125,7 +131,8 @@ namespace ECommerceAPI.Controllers
                 });
             }
         }
-
+        
+        [Authorize]
         [HttpDelete("delete_order/{orderId}")]
         public async Task<IActionResult> DeleteOrder(int orderId)
         {

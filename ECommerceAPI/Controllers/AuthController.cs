@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using ECommerceAPI.Application.Interfaces;
+﻿using ECommerceAPI.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using ECommerceAPI.Application.DTOs.Request;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ECommerceAPI.Controllers
 {
@@ -10,10 +11,12 @@ namespace ECommerceAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IJwtService _jwtService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IJwtService jwtService)
         {
             _authService = authService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("register")]
@@ -40,7 +43,8 @@ namespace ECommerceAPI.Controllers
             try
             {
                 var login = await _authService.LoginUserAsync(loginUser);
-                return Ok(login);
+                var token = _jwtService.GenerateToken(login.Id.ToString(), login.Email);
+                return Ok(new { token });
             }
             catch (InvalidOperationException ex)
             {
@@ -52,6 +56,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("profile/{id}")]
         public async Task<IActionResult> GetUserProfile(int id)
         {
@@ -70,6 +75,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("update_user/{id}")]
         public async Task<IActionResult> UpdateUserDetails(int id, UpdateUserRequestDto updateUser)
         {
@@ -88,12 +94,17 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [HttpDelete("delete_user/{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        [Authorize]
+        [HttpDelete("delete_me")]
+        public async Task<IActionResult> DeleteAccount()
         {
             try
             {
-                var user = await _authService.DeleteUserAsync(id);
+                var userId = int.Parse(
+                    User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+                await _authService.DeleteUserAsync(userId);
+
                 return Ok(new { message = "User deleted successfully"});
             }
             catch (InvalidOperationException ex)
