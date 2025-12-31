@@ -38,18 +38,18 @@ ECommerceProject
 
 ### Currently implemented
 - Project structure according to Clean Architecture  
-- Layered separation (API, Application, Domain, Infrastructure)  
+- Layered separation (API, Application, Domain, Infrastructure)
+- 🔐 Authentication & Authorization (JWT)
+- 🛒 Products Module (CRUD)
+- 📦 Orders & Cart System  
+- 👤 Users & Roles  
+- 💳 Checkout
+- 🌐 Global exception handling  
+- 🎯 Validation using FluentValidation  
   
 
 ### Coming soon
-- 🔐 Authentication & Authorization (JWT + Identity)  
-- 🛒 Products Module (CRUD, filtering, sorting)  
-- 📦 Orders & Cart System  
-- 👤 Users & Roles  
-- 💳 Checkout / Payment Integration  
 - 📁 File Uploads (images, product gallery)  
-- 🌐 Global exception handling  
-- 🎯 Validation using FluentValidation  
 - 📊 Logging & auditing support  
 
 ## 📂 Folder Structure
