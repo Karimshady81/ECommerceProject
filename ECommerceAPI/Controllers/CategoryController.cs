@@ -21,67 +21,22 @@ namespace ECommerceAPI.Controllers
         [HttpPost("create_category")]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto categoryDto)
         {
-            try
-            {
-                var category = await _categoryService.CreateCategoryAsync(categoryDto);
-                return Ok(category);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    message = ex.Message,
-                    inner = ex.InnerException?.Message
-                });
-            }
+            var category = await _categoryService.CreateCategoryAsync(categoryDto);
+            return Ok(category);
         }
 
         [HttpGet("get_active_categories")]
         public async Task<IActionResult> GetActiveCategories()
         {
-            try
-            {
-                var categories = await _categoryService.GetActiveCategoriesAsync();
-                return Ok(categories);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    message = ex.Message,
-                    inner = ex.InnerException?.Message
-                });
-            }
+            var categories = await _categoryService.GetActiveCategoriesAsync();
+            return Ok(categories);
         }
 
         [HttpGet("get_categories_with_products/{categoryId}")]
         public async Task<IActionResult> GetCategoriesWithProducts(int categoryId)
         {
-            try
-            {
-                var category = await _categoryService.GetCategoryWithProductsAsync(categoryId);
-                return Ok(category);
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { ex.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    message = ex.Message,
-                    inner = ex.InnerException?.Message
-                });
-            }
+            var category = await _categoryService.GetCategoryWithProductsAsync(categoryId);
+            return Ok(category);
         }
     }
 }

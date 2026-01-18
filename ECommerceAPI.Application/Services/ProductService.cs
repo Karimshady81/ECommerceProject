@@ -1,5 +1,6 @@
 ﻿using ECommerceAPI.Application.DTOs.Request;
 using ECommerceAPI.Application.DTOs.Response;
+using ECommerceAPI.Application.Exceptions;
 using ECommerceAPI.Application.Interfaces;
 using ECommerceAPI.Domain.Entities;
 using ECommerceAPI.Domain.Interfaces;
@@ -58,7 +59,7 @@ namespace ECommerceAPI.Application.Services
             var product = await _productRepository.GetByIdAsync(productId);
 
             if (product == null)
-                throw new InvalidOperationException($"No product with this ID: {productId} ");
+                throw new NotFoundException($"No product with this ID: {productId} ");
 
             var category = await _categoryRepository.GetCategoryWithProductsAsync(product.CategoryId);
 
