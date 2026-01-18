@@ -1,104 +1,171 @@
-# 📦 ECommerceProject  
-A modular **Clean Architecture** E-Commerce backend built with **ASP.NET Core**, following domain-driven principles and separation of concerns.  
-This project demonstrates a real-world, production-ready project structure suitable for learning, interviews, and portfolio use.
+# 🛒 ECommerce API
 
-## 🏗️ Architecture Overview
+A **personal backend project** built with **ASP.NET Core 8** following
+**Clean / Layered Architecture principles**.
+This project demonstrates how to structure a **scalable, maintainable,
+and testable** e-commerce backend using real-world backend practices.
 
-This solution follows a layered Clean Architecture pattern:
+The goal of this project is learning, interview preparation, and
+portfolio demonstration.
 
-```
-ECommerceProject
-│
-├── ECommerceAPI               → Presentation Layer (Controllers, Endpoints)
-│
-├── ECommerceAPI.Application   → Application Layer (CQRS, DTOs, Services)
-│
-├── ECommerceAPI.Domain        → Core Domain (Entities, Enums, Interfaces)
-│
-└── ECommerceAPI.Infrastructure → Infrastructure Layer (EF Core, Repositories, DB)
-```
+------------------------------------------------------------------------
 
-### ✔️ Why Clean Architecture?
-- Separation of concerns  
-- Testability  
-- Database independence  
-- Strong domain modeling  
-- Scalable codebase for real applications  
+## 🧱 Architecture Overview
+
+This project follows a **Layered (Clean) Architecture** approach with
+clear separation of concerns:
+
+    API
+    │
+    Application
+    │
+    Domain
+    │
+    Infrastructure
+
+### Layers Description
+
+-   **API**
+    -   ASP.NET Core Web API
+    -   Controllers, Routing, Dependency Injection
+    -   Authentication & Authorization (JWT)
+-   **Application**
+    -   Business logic and use cases
+    -   Services and DTOs
+    -   CQRS-style separation
+    -   Validation rules
+-   **Domain**
+    -   Core business entities
+    -   Domain models and interfaces
+    -   Independent of frameworks and databases
+-   **Infrastructure**
+    -   Entity Framework Core
+    -   Repositories
+    -   Database access and migrations
+
+------------------------------------------------------------------------
+
+## ❓ Why Clean Architecture?
+
+-   Separation of concerns
+-   Highly testable codebase
+-   Database and framework independence
+-   Strong domain modeling
+-   Scalable structure suitable for real-world applications
+
+------------------------------------------------------------------------
 
 ## 🚀 Tech Stack
 
-| Layer | Technologies |
-|-------|-------------|
-| **API** | ASP.NET Core Web API, Controllers, Routing, Dependency Injection |
-| **Application** | Services, DTOs, CQRS-style logic, Business rules |
-| **Domain** | Domain Entities, Aggregates, Interfaces |
-| **Infrastructure** | Entity Framework Core, Repositories, Migrations |
+  -----------------------------------------------------------------------
+  Layer                  Technologies
+  ---------------------- ------------------------------------------------
+  API                    ASP.NET Core 8, Web API, Controllers, Dependency
+                         Injection
 
-## 🧩 Features (Current & Planned)
+  Application            Services, DTOs, Business Rules
 
-### Currently implemented
-- Project structure according to Clean Architecture  
-- Layered separation (API, Application, Domain, Infrastructure)  
-  
+  Domain                 Entities, Interfaces
 
-### Coming soon
-- 🔐 Authentication & Authorization (JWT + Identity)  
-- 🛒 Products Module (CRUD, filtering, sorting)  
-- 📦 Orders & Cart System  
-- 👤 Users & Roles  
-- 💳 Checkout / Payment Integration  
-- 📁 File Uploads (images, product gallery)  
-- 🌐 Global exception handling  
-- 🎯 Validation using FluentValidation  
-- 📊 Logging & auditing support  
+  Infrastructure         Entity Framework Core, MySQL, Repositories,
+                         Migrations
 
-## 📂 Folder Structure
+  Security               JWT Authentication & Authorization
 
+  Testing                Unit Tests & Integration Tests
+  -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## ✨ Features
+
+### Currently Implemented
+
+-   Clean / Layered Architecture structure
+-   Authentication & Authorization using **JWT**
+-   Users & Roles management
+-   Products module (CRUD)
+-   Categories
+-   Cart & Orders system
+-   Checkout flow
+-   Global exception handling
+-   Input validation using **FluentValidation**
+-   Unit testing
+-   Integration testing
+
+------------------------------------------------------------------------
+
+## 🧪 Testing
+
+-   **Unit Tests**
+    -   Business logic and services
+-   **Integration Tests**
+    -   API endpoints
+    -   Controllers and infrastructure interaction
+
+------------------------------------------------------------------------
+
+## 🗄 Database
+
+-   **MySQL**
+-   **Entity Framework Core**
+-   Code-First approach
+-   Migrations for schema management
+
+------------------------------------------------------------------------
+
+## 🔐 Security & Validation
+
+-   JWT-based authentication
+-   Role-based authorization
+-   Global exception handling middleware
+-   Request validation using FluentValidation
+
+------------------------------------------------------------------------
+
+## ▶️ Running the Project
+
+### Prerequisites
+
+-   .NET 8 SDK
+-   MySQL Server
+
+### Steps
+
+1.  Clone the repository
+
+``` bash
+git clone https://github.com/your-username/ecommerce-api.git
 ```
-📦 ECommerceProject
- ┣ 📂 ECommerceAPI
- ┣ 📂 ECommerceAPI.Application
- ┣ 📂 ECommerceAPI.Domain
- ┣ 📂 ECommerceAPI.Infrastructure
- ┣ 📄 .gitignore
- ┗ 📄 ECommerceProject.sln
+
+2.  Update the connection string in `appsettings.json`
+
+3.  Apply migrations
+
+``` bash
+dotnet ef database update
 ```
 
-## ▶️ How to Run the Project
+4.  Run the application
 
-1. **Clone the repo**  
-   ```
-   git clone https://github.com/Karimshady81/ECommerceProject.git
-   ```
+``` bash
+dotnet run
+```
 
-2. **Open the solution**  
-   Open the `.sln` file in **Visual Studio 2022**.
+5.  Access Swagger UI
 
-3. **Restore dependencies**  
-   ```
-   dotnet restore
-   ```
+```{=html}
+<!-- -->
+```
+    https://localhost:{port}/swagger
 
-4. **Apply migrations (if implemented)**  
-   ```
-   dotnet ef database update
-   ```
+------------------------------------------------------------------------
 
-5. **Run the API**
-   ```
-   dotnet run --project ECommerceAPI
-   ```
+## 📚 What I Learned
 
-## 📌 Roadmap
-- Add authentication (JWT)  
-- Implement Product module  
-- Add Category module  
-- Add Cart & Order flow  
-- Add Payments integrations  
-- Add Swagger documentation  
-- Add caching (Redis)  
-- Add unit/integration tests  
-
-## 🤝 Contributing
-This is a learning project — contributions, suggestions, and improvements are welcome!
-
+-   Applying Clean Architecture in a real backend project
+-   Structuring scalable ASP.NET Core applications
+-   Implementing JWT authentication and authorization
+-   Writing testable services
+-   Using Entity Framework Core with MySQL
+-   Handling validation and global errors properly
