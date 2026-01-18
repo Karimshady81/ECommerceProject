@@ -17,7 +17,7 @@ namespace ECommerceAPI.Controllers
             _productService = productService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost("add_product")]
         public async Task<IActionResult> CreateProduct(CreateProductRequestDto product)
         {
@@ -128,7 +128,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut("update_product/{productId}")]
         public async Task<IActionResult> UpdateProduct(int productId,UpdateProductRequestDto updateProduct)
         {
@@ -151,7 +151,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut("reduce_quantity/{productId}")]
         public async Task<IActionResult> ReduceStock(int productId,UpdateProductRequestDto reducedQuantity)
         {
@@ -202,7 +202,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("delete_product/{productId}")]
         public async Task<IActionResult> DeleteProduct(int productId)
         {

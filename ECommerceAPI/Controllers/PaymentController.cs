@@ -18,7 +18,7 @@ namespace ECommerceAPI.Controllers
             _paymentService = paymentService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPost("create_payment")]
         public async Task<IActionResult> CreatePayment(int orderId, PaymentMethod paymentMethod)
         {
@@ -41,7 +41,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer,Admin")]
         [HttpGet("get_payment_by_order")]
         public async Task<IActionResult> GetPaymentByOrderId(int orderId)
         {
@@ -64,7 +64,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer,Admin")]
         [HttpGet("get_payment_by_status")]
         public async Task<IActionResult> GetPaymentByStatus(PaymentStatus status)
         {
@@ -87,7 +87,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut("update_payment_status")]
         public async Task<IActionResult> UpdatePaymentStatus(int paymentId, PaymentStatus status)
         {
@@ -110,7 +110,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet("get_payment_by_date_range")]
         public async Task<IActionResult> GetPaymentsByDateRange(DateTime dateStart, DateTime dateEnd)
         {

@@ -17,7 +17,7 @@ namespace ECommerceAPI.Controllers
             _categoryService = categoryService;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost("create_category")]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto categoryDto)
         {

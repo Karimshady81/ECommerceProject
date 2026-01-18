@@ -1,4 +1,5 @@
 ﻿using ECommerceAPI.Application.Interfaces;
+using ECommerceAPI.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -20,7 +21,7 @@ namespace ECommerceAPI.Application.Services
             _configuration = configuration;
         }
 
-        public string GenerateToken(string userID, string Email)
+        public string GenerateToken(string userID, string Email, UserRole role)
         {
             //Get JWT setting from appsettings
             var key = _configuration["Jwt:key"];
@@ -33,6 +34,7 @@ namespace ECommerceAPI.Application.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, userID.ToString()),
                 new Claim(ClaimTypes.Email, Email),
+                new Claim(ClaimTypes.Role, role.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

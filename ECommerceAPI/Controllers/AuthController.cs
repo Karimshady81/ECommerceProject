@@ -56,7 +56,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpGet("profile/{id}")]
         public async Task<IActionResult> GetUserProfile(int id)
         {
@@ -75,7 +75,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer")]
         [HttpPut("update_user/{id}")]
         public async Task<IActionResult> UpdateUserDetails(int id, UpdateUserRequestDto updateUser)
         {
@@ -94,7 +94,7 @@ namespace ECommerceAPI.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Customer,Admin")]
         [HttpDelete("delete_me")]
         public async Task<IActionResult> DeleteAccount()
         {
