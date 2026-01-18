@@ -1,13 +1,14 @@
-using ECommerceAPI.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 using ECommerceAPI.Application.DependencyInjection;
-using ECommerceAPI.Infrastructure.DependencyInjection;
-using System.Text.Json.Serialization;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using ECommerceAPI.Application.Interfaces;
 using ECommerceAPI.Application.Services;
+using ECommerceAPI.Infrastructure.Data;
+using ECommerceAPI.Infrastructure.DependencyInjection;
+using ECommerceAPI.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
